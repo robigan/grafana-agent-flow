@@ -1,0 +1,9 @@
+Package: grafana-agent-flow
+Version: 1.0.1-2
+Section: default
+Priority: optional
+Maintainer: robigan <robigan@robigan.com>
+Architecture: all
+Description: An additional package that contains configuration files for running the grafana agent in flow mode.
+ This package differs a bit from grafana agent's way of doing things such that it ships with a directory in etc to store additional files that can be used as secret env files. This is to encourage the use of the local.file component.
+Depends: grafana-agent (>=0.28.0-1)

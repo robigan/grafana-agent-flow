@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+
+# shellcheck disable=SC1091
+[ -f /etc/default/grafana-agent-flow ] && . /etc/default/grafana-agent-flow
+
+# Initial installation: $1 == configure
+# Upgrade: $1 == configure, $2 == old version
+case "$1" in
+    configure)
+        # The grafana agent user and group is provided by installing grafana agent
+        [ -z "$GRAFANA_AGENT_USER" ] && GRAFANA_AGENT_USER="grafana-agent"
+        [ -z "$GRAFANA_AGENT_GROUP" ] && GRAFANA_AGENT_GROUP="grafana-agent"
+
+        if [ ! -d /var/lib/grafana-agent-flow ]; then
+            mkdir /var/lib/grafana-agent-flow
+        fi
+
+        chown $GRAFANA_AGENT_USER:$GRAFANA_AGENT_GROUP /var/lib/grafana-agent-flow
+        chmod 770 /var/lib/grafana-agent-flow
+
+        chmod 644 /etc/grafana-agent-flow/config.river
+        chown -R root:$GRAFANA_AGENT_GROUP /etc/grafana-agent-flow
+
+        if [ -z ${2+x} ] && [ "$RESTART_ON_UPGRADE" = "true" ]; then
+            if command -v systemctl 2>/dev/null; then
+                systemctl daemon-reload
+                systemctl restart grafana-agent-flow
+            fi
+        fi
+esac

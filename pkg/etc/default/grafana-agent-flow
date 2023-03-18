@@ -1,0 +1,17 @@
+## Path:
+## Description: Grafana Agent monitoring agent settings for flow operating mode
+## Type:        string
+## Default:     ""
+## ServiceRestart: grafana-agent-flow
+#
+# Command line options for grafana-agent
+#
+# The configuration file holding the agent config
+CONFIG_FILE="/etc/grafana-agent-flow/config.river"
+
+# Any user defined arguments
+#CUSTOM_ARGS="-server.http.listen-addr=127.0.0.1:9090"
+CUSTOM_ARGS=""
+
+# Restart on system upgrade. Default to true
+RESTART_ON_UPGRADE=true
